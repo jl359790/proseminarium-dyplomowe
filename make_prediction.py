@@ -66,15 +66,15 @@ for i in range (0, 7555):
     stock = testFile.readline()
     split = re.split(';', stock)
     stockRecommendations = re.findall('{[^}]*}', split[1])
-    accSums = [0.0, 0.0, 0.0]
+    accSums = {ROR.Buy: 0.0, ROR.Hold: 0.0, ROR.Sell: 0.0}
     for j in range(0, len(stockRecommendations)):
         recommendation = recommendationSplit(stockRecommendations[j])
         expertACCVal = expertsACC.get(recommendation[0], 0.0)
-        accSums[recommendation[1].value] += expertACCVal
+        accSums[recommendation[1]] += expertACCVal
     max = ROR.Hold
-    if (accSums[ROR.Buy.value] > accSums[max.value]):
+    if (accSums[ROR.Buy] > accSums[max]):
         max = ROR.Buy
-    if (accSums[ROR.Sell.value] > accSums[max.value]):
+    if (accSums[ROR.Sell] > accSums[max]):
         max = ROR.Sell
     outputFile.write(max.name)
     outputFile.write('\n')
